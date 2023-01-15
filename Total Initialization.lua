@@ -1,6 +1,6 @@
 if Debug then Debug.beginFile "TotalInitialization" end
 --[[——————————————————————————————————————————————————————
-    Total Initialization version 5.3
+    Total Initialization version 5.3.0.1
     Created by: Bribe
     Contributors: Eikonium, HerlySQR, Tasyen, Luashine, Forsakn
     Inspiration: Almia, ScorpioT1000, Troll-Brain
