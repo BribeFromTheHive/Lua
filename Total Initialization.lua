@@ -4,6 +4,8 @@ if Debug then Debug.beginFile "TotalInitialization" end
     Created by: Bribe
     Contributors: Eikonium, HerlySQR, Tasyen, Luashine, Forsakn
     Inspiration: Almia, ScorpioT1000, Troll-Brain
+    Hosted at: https://github.com/BribeFromTheHive/Lua/blob/main/TotalInitialization.lua
+    Debug library hosted at: https://www.hiveworkshop.com/threads/debug-utils-ingame-console-etc.330758/
 ————————————————————————————————————————————————————————————]]
 
 ---Calls the user's initialization function during the map's loading process. The first argument should either be the init function,
@@ -121,7 +123,7 @@ do
         else
             assert(type(libraryName)=="string")
             if debugLineNum and Debug then
-                Debug.beginFile(libraryName, incDebugLevel and 7 or 6)
+                Debug.beginFile(libraryName, incDebugLevel and 4 or 3)
                 Debug.data.sourceMap[#Debug.data.sourceMap].lastLine = debugLineNum
             end
             if library then
