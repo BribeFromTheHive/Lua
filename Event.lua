@@ -107,12 +107,13 @@ OnInit("Event", function() --https://github.com/BribeFromTheHive/Lua-Core/blob/m
     local depth = __jarray() ---@type { [Event.funcData]: integer }
     local promisedEvents = {} ---@type { [Event]: Event }
     do
+        ---@param name? string
         ---@param event Event
         ---@param func function
         ---@param priority? number
         ---@param hookIndex? any
         ---@return Event.funcData
-        local function addFunc(event, func, priority, hookIndex)
+        local function addFunc(name, event, func, priority, hookIndex)
             assert(type(func)=="function")
             local funcData = hook.add(hookIndex or name,
                 function(self, ...)
@@ -138,7 +139,7 @@ OnInit("Event", function() --https://github.com/BribeFromTheHive/Lua-Core/blob/m
             local event = allocate(name)
 
             function event.register(userFunc, priority)
-                return addFunc(event, userFunc, priority)
+                return addFunc(name, event, userFunc, priority)
             end
 
             ---Calls userFunc when the event is run with the specified index.
@@ -149,7 +150,7 @@ OnInit("Event", function() --https://github.com/BribeFromTheHive/Lua-Core/blob/m
             ---@return Event.funcData
             function event.await(userFunc, onValue, static, priority)
                 onValue = onValue or currentEvent.data
-                return addFunc(event,
+                return addFunc(nil, event,
                     function(self, ...)
                         userFunc(...)
                         if not static then

@@ -28,6 +28,8 @@ if Debug then Debug.beginFile "Influa" end
 ---@diagnostic disable: duplicate-set-field
 
 ---@class GUI
+---@field enumUnitsInRange fun(code: fun(unit:unit), x: number, y: number, radius: number, filter?: boolexpr)
+---TODO: add the other extended fields that didn't get automatically picked up.
 GUI = { typecast = function(self) return self end }
 
 ---@type fun(event: playerunitevent, userFunc: function, skip?: boolean):function?

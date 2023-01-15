@@ -5,7 +5,7 @@ GlobalRemapArray = nil ---@type fun(var: string, getFunc?: (fun(index):any), set
 
 OnInit(function()
 
-local hook = Require.strict "Hook" --https://github.com/BribeFromTheHive/Lua-Core/blob/main/Hook.lua
+Require.strict "Hook" --https://github.com/BribeFromTheHive/Lua-Core/blob/main/Hook.lua
 --[[
 --------------------------------------------------------------------------------------
 Global Variable Remapper v1.3.2 by Bribe
@@ -31,7 +31,7 @@ API:
         value the user is trying to assign. The function doesn't return anything.
 ----------------------------------------------------------------------------------------]]
 local getters = {}
-hook.add("__index", function(h, g, key)
+Hook.add("__index", function(h, g, key)
     if getters[key]~=nil then
         return getters[key]()
     end
@@ -39,7 +39,7 @@ hook.add("__index", function(h, g, key)
 end, 0, _G, rawget)
 
 local setters = {}
-hook.add("__newindex", function(h, g, key, val)
+Hook.add("__newindex", function(h, g, key, val)
     if setters[key]~=nil then
         setters[key](val)
     else
@@ -61,15 +61,15 @@ function GlobalRemap(var, getFunc, setFunc)
         setters[var] = setFunc or default --Assign a function that captures the value the variable is attempting to be set to.
     else
         if getFunc then
-            hook(var, getFunc, 0, getters)
+            Hook(var, getFunc, 0, getters)
         end
         if setFunc then
-            hook(var, setFunc, 0, setters)
+            Hook(var, setFunc, 0, setters)
         end
     end
     if getters[var] then
         if getFunc then
-            hook(var, getFunc, 0, getters)
+            Hook(var, getFunc, 0, getters)
         end
     else
         getters[var] = getFunc or default   --Assign a function that returns what should be returned when this variable is referenced.
