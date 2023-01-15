@@ -40,15 +40,16 @@ OnInit = {}
 ---@generic string
 ---@alias Requirement async fun(reqName:`string`, source?: table):string
 
--- `Require` will yield the calling coroutine until the requirement exists. This can be used on named `OnInit` resources, or on normal
--- global variables. Due to the way Sumneko's syntax highlighter works, the return value will only be linted for defined @class objects.
+-- `Require` will yield the calling `OnInit` initialization function until the requirement (referenced as a string) exists. It will check the
+-- global API (for example, does "GlobalRemap" exist) and then check for any named OnInit resources which might use that same string as its name.
+-- 
+-- Due to the way Sumneko's syntax highlighter works, the return value will only be linted for defined @class objects (and doesn't work for regular
+-- globals like `TimerStart`). I tried to request the functionality here: https://github.com/sumneko/lua-language-server/issues/1792 , however it
+-- was closed. Presumably, there are other requests asking for it, but I wouldn't count on it.
 --
--- `Require` only works from within a yieldable coroutine during the map loading process. It is intended to be called from within an
--- `OnInit` callback function.
+-- To declare a requirement, use: `Require.strict "SomeLibrary"` or (if you don't care about the missing linting functionality) `Require "SomeLibrary"`
 --
--- Syntax for strict requirements that throw errors if not found: `Require.strict "SomeLibrary"`
---
--- Syntax for requirements that give up if the required library or variable is not found: `Require.optional "SomeLibrary"`
+-- To optionally require something, use any other suffix (such as `.optionally` or `.nonstrict`): `Require.optional "SomeLibrary"`
 --
 ---@class Require: { [string]: Requirement }
 --
@@ -138,12 +139,13 @@ do
     end
 
     local function createInit(name)
-        ---@param libraryName string
-        ---@param userInitFunc Initializer.Callback
-        ---@param debugLineNum? integer
-        ---@overload fun(userInitFunc: Initializer.Callback)
-        return function(libraryName, userInitFunc, debugLineNum, incDebugLevel)
-            addUserFunc(name, libraryName, userInitFunc, debugLineNum, incDebugLevel)
+        ---@async
+        ---@param libraryName string                --Assign your callback a unique name, allowing other OnInit callbacks can use it as a requirement.
+        ---@param userInitFunc Initializer.Callback --Define a function to be called at the chosen point in the initialization process. It can optionally take the "Require" object as a parameter. Its optional return value(s) are passed to a requiring library via the `Require` object (defaults to `true`).
+        ---@param debugLineNum? integer             --If the Debug library is present, you can call Debug.getLine() for this parameter (which should coincide with the last line of your script file). This will neatly tie-in with OnInit's built-in Debug library functionality to define a starting line and an ending line for your module.
+        ---@overload async fun(userInitFunc: Initializer.Callback)
+        return function(libraryName, userInitFunc, debugLineNum)
+            addUserFunc(name, libraryName, userInitFunc, debugLineNum)
         end
     end
     OnInit.global = createInit "InitGlobals"                -- Called after InitGlobals, and is the standard point to initialize.
@@ -153,7 +155,7 @@ do
 
     setmetatable(OnInit, {__call = function(self, libraryNameOrInitFunc, userInitFunc, debugLineNum)
         if userInitFunc or type(libraryNameOrInitFunc)=="function" then
-            self.global(libraryNameOrInitFunc, userInitFunc, debugLineNum, true) --Calling OnInit directly defaults to OnInit.global (AKA OnGlobalInit)
+            addUserFunc("global", libraryNameOrInitFunc, userInitFunc, debugLineNum, true) --Calling OnInit directly defaults to OnInit.global (AKA OnGlobalInit)
         elseif library then
             library:declare(libraryNameOrInitFunc) --API handler for OnInit "Custom initializer"
         else
