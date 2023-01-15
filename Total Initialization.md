@@ -10,19 +10,19 @@ _*provided that Total Initialization is declared towards the top of the trigger 
 
 Special Thanks:
 
-- @Eikonium for the "try" function and for challenging bad API approaches, leading me to discovering far better API for this resource.
-- @HerlySQR for GetStackTrace, which makes debugging a much more straightforward process.
-- @Tasyen for helping me to better understand the "main" function, and for discovering MarkGameStarted can be hooked for OnInit.final's needs.
-- @Luashine for showing how I can implement OnInit.config, which - in turn - led to an actual OnInit.main (previous attempts had failed)
-- @Forsakn and Troll-Brain for help with early debugging (primarily with the pairs desync issue)
+- [Eikonium](https://www.hiveworkshop.com/members/175606/) for the "try" function and for challenging bad API approaches, leading me to discovering far better API for this resource.
+- [HerlySQR](https://www.hiveworkshop.com/members/286960/) for GetStackTrace, which makes debugging a much more straightforward process.
+- [Tasyen](https://www.hiveworkshop.com/members/194042/) for helping me to better understand the "main" function, and for discovering MarkGameStarted can be hooked for OnInit.final's needs.
+- [Luashine](https://www.hiveworkshop.com/members/300553/) for showing how I can implement OnInit.config, which - in turn - led to an actual OnInit.main (previous attempts had failed)
+- [Forsakn](https://www.hiveworkshop.com/members/293833/) and Troll-Brain for help with early debugging (primarily with the pairs desync issue)
 
 
 
 For laying the framework for requirements in WarCraft 3 Lua:
 
-- @Almia's [Module System](https://www.hiveworkshop.com/threads/lua-module-system.335222/)
-- @ScorpioT1000's [wlpm-module-manager](https://github.com/Indaxia/wc3-wlpm-module-manager/blob/master/wlpm-module-manager.lua')
-- @Troll-Brain's [lua require ersatz](https://www.hiveworkshop.com/threads/lua-require-ersatz.326584/)
+- [Almia](https://www.hiveworkshop.com/members/217293/)'s [Module System](https://www.hiveworkshop.com/threads/lua-module-system.335222/)
+- [ScorpioT1000](https://www.hiveworkshop.com/members/230372/)'s [wlpm-module-manager](https://github.com/Indaxia/wc3-wlpm-module-manager/blob/master/wlpm-module-manager.lua')
+- [Troll-Brain](https://www.hiveworkshop.com/members/147723/)'s [lua require ersatz](https://www.hiveworkshop.com/threads/lua-require-ersatz.326584/)
 
 
 ## Background
