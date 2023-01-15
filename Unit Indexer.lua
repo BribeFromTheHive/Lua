@@ -1,6 +1,6 @@
-OnInit.global("Unit Indexer", function(require)  --https://github.com/BribeFromTheHive/Lua-Core/blob/main/Total_Initialization.lua
-    require "GlobalRemap" --https://github.com/BribeFromTheHive/Lua-Core/blob/main/Global_Variable_Remapper.lua
-    require "Event"       --https://github.com/BribeFromTheHive/Lua-Core/blob/main/Event.lua
+OnInit.global("Unit Indexer", function(require)  --https://github.com/BribeFromTheHive/Lua/blob/main/Total_Initialization.lua
+    require "GlobalRemap" --https://github.com/BribeFromTheHive/Lua/blob/main/Global_Variable_Remapper.lua
+    require "Event"       --https://github.com/BribeFromTheHive/Lua/blob/main/Event.lua
 
     Event.create "OnUnitIndexed"
     Event.create "OnUnitRemoval"

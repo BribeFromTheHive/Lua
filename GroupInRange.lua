@@ -17,8 +17,8 @@
 --]]
 OnInit(function()
 
-    Require "Action" --https://github.com/BribeFromTheHive/Lua-Core/blob/main/Action.lua
-    Require "GUI"    --https://github.com/BribeFromTheHive/Lua-Core/blob/main/Lua-Infused-GUI.lua
+    Require "Action" --https://github.com/BribeFromTheHive/Lua/blob/main/Action.lua
+    Require "GUI"    --https://github.com/BribeFromTheHive/Lua/blob/main/Influa.lua
 --[[
     GUI Variables:
 

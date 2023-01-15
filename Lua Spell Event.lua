@@ -1,9 +1,9 @@
 OnInit("SpellEvent", function() --Lua Spell Event v1.0 by Bribe
-    Require "GlobalRemap"                   --https://github.com/BribeFromTheHive/Lua-Core/blob/main/Global_Variable_Remapper.lua
-    Require "RegisterAnyPlayerUnitEvent"    --https://github.com/BribeFromTheHive/Lua-Core/blob/main/Lua-Infused-GUI.lua
-    Require "Event"                         --https://github.com/BribeFromTheHive/Lua-Core/blob/main/Event.lua
-    Require "Action"                        --https://github.com/BribeFromTheHive/Lua-Core/blob/main/Action.lua
-    Require "PreciseWait"                   --https://github.com/BribeFromTheHive/Lua-Core/blob/main/PreciseWait.lua
+    Require "GlobalRemap"                   --https://github.com/BribeFromTheHive/Lua/blob/main/Global_Variable_Remapper.lua
+    Require "RegisterAnyPlayerUnitEvent"    --https://github.com/BribeFromTheHive/Lua/blob/main/Influa.lua
+    Require "Event"                         --https://github.com/BribeFromTheHive/Lua/blob/main/Event.lua
+    Require "Action"                        --https://github.com/BribeFromTheHive/Lua/blob/main/Action.lua
+    Require "PreciseWait"                   --https://github.com/BribeFromTheHive/Lua/blob/main/PreciseWait.lua
 
     SpellEvent={}
 

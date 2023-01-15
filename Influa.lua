@@ -19,10 +19,10 @@ if Debug then Debug.beginFile "Influa" end
     Updated: 29th Dec 2022
     
     Uses optionally:
-        https://github.com/BribeFromTheHive/Lua-Core/blob/main/Total_Initialization.lua
-        https://github.com/BribeFromTheHive/Lua-Core/blob/main/Hook.lua
-        https://github.com/BribeFromTheHive/Lua-Core/blob/main/Global_Variable_Remapper.lua
-        https://github.com/BribeFromTheHive/Lua-Core/blob/main/UnitEvent.lua
+        https://github.com/BribeFromTheHive/Lua/blob/main/Total_Initialization.lua
+        https://github.com/BribeFromTheHive/Lua/blob/main/Hook.lua
+        https://github.com/BribeFromTheHive/Lua/blob/main/Global_Variable_Remapper.lua
+        https://github.com/BribeFromTheHive/Lua/blob/main/UnitEvent.lua
 --]]
 
 ---@diagnostic disable: duplicate-set-field

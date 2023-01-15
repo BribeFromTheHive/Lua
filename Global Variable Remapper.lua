@@ -5,7 +5,7 @@ GlobalRemapArray = nil ---@type fun(var: string, getFunc?: (fun(index):any), set
 
 OnInit(function()
 
-Require.strict "Hook" --https://github.com/BribeFromTheHive/Lua-Core/blob/main/Hook.lua
+Require.strict "Hook" --https://github.com/BribeFromTheHive/Lua/blob/main/Hook.lua
 --[[
 --------------------------------------------------------------------------------------
 Global Variable Remapper v1.3.2 by Bribe
