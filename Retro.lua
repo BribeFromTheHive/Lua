@@ -1,4 +1,4 @@
-OnInit.module("Retro", function(require)
+OnInit.module("Retro", function()
 --------------------------------------------
 --    ___  ___  ___  ___  ___
 --   /__/ /__   /   /__/ /  /
@@ -9,8 +9,8 @@ OnInit.module("Retro", function(require)
 -- Description:
 -- Retro provides data retrieval and callback operators for use in simulating a time-travel effect for units.
 
-    local echo      = require.strict "Timed.echo"          --https://github.com/BribeFromTheHive/Lua-Core/blob/main/Timed.lua
-    local unitEvent = require.lazily "UnitEvent"
+    local echo      = Require.strict "Timed.echo"           --https://github.com/BribeFromTheHive/Lua-Core/blob/main/Timed.lua
+    local unitEvent = Require.lazily "UnitEvent"            --https://github.com/BribeFromTheHive/Lua-Core/blob/main/UnitEvent.lua
 
     ---@class RetroTimeStamp
     ---@field x number

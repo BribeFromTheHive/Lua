@@ -35,7 +35,7 @@ if Debug then Debug.beginFile "Total Initialization" end
 ---@field library async fun(initList: table|string, userFunc: function)
 OnInit = {}
 
----@alias Initializer.Callback fun(require?: function):any?
+---@alias Initializer.Callback fun(require?: Requirement):any?
 
 ---@generic string
 ---@alias Requirement async fun(reqName:`string`, source?: table):string
@@ -137,11 +137,13 @@ do
         end
     end
 
-    ---@type fun(name:string): async fun(libraryName: string, initCallback: Initializer.Callback, debugLineNum?: integer)
-    ---@overload fun(name:string): async fun(initCallback: Initializer.Callback)
     local function createInit(name)
-        return function(libraryNameOrInitFunc, userInitFunc, debugLineNum, incDebugLevel) ---@diagnostic disable-line: redundant-parameter
-            addUserFunc(name, libraryNameOrInitFunc, userInitFunc, debugLineNum, incDebugLevel)
+        ---@param libraryName string
+        ---@param userInitFunc Initializer.Callback
+        ---@param debugLineNum? integer
+        ---@overload fun(userInitFunc: Initializer.Callback)
+        return function(libraryName, userInitFunc, debugLineNum, incDebugLevel)
+            addUserFunc(name, libraryName, userInitFunc, debugLineNum, incDebugLevel)
         end
     end
     OnInit.global = createInit "InitGlobals"                -- Called after InitGlobals, and is the standard point to initialize.
