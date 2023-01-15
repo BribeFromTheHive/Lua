@@ -1,4 +1,4 @@
-if Debug then Debug.beginFile "Total Initialization" end
+if Debug then Debug.beginFile "TotalInitialization" end
 --[[——————————————————————————————————————————————————————
     Total Initialization version 5.3
     Created by: Bribe
