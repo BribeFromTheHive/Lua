@@ -1,4 +1,4 @@
-**Total Initialization**
+## [Total Initialization](https://github.com/BribeFromTheHive/Lua/blob/main/TotalInitialization.lua)
 
 - Allows you to initialize your script in a safe, easy-to-debug environment.
 - Allows your map's triggers to be arranged in any order* (similar to JassHelper).
