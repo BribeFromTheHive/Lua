@@ -1,10 +1,10 @@
-OnInit("Damage Engine", function() --https://github.com/BribeFromTheHive/Lua/blob/main/Total_Initialization.lua
+OnInit("Damage Engine", function() --https://github.com/BribeFromTheHive/Lua/blob/master/Total_Initialization.lua
 --Lua Version 3
 --Author: Bribe
-local Event = Require.strict "Event" --https://github.com/BribeFromTheHive/Lua/blob/main/Event.lua
+local Event = Require.strict "Event" --https://github.com/BribeFromTheHive/Lua/blob/master/Event.lua
 
-local onEvent = Require "RegisterAnyPlayerUnitEvent"  --https://github.com/BribeFromTheHive/Lua/blob/main/Influa.lua
-local remap   = Require.lazily "GlobalRemap"          --https://github.com/BribeFromTheHive/Lua/blob/main/Global_Variable_Remapper.lua
+local onEvent = Require "RegisterAnyPlayerUnitEvent"  --https://github.com/BribeFromTheHive/Lua/blob/master/Influa.lua
+local remap   = Require.lazily "GlobalRemap"          --https://github.com/BribeFromTheHive/Lua/blob/master/Global_Variable_Remapper.lua
 
 --Configurables:
 local _USE_GUI           = remap    --GUI only works if Global Variable Remapper is included.

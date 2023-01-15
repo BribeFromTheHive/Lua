@@ -4,7 +4,7 @@ if Debug then Debug.beginFile "TotalInitialization" end
     Created by: Bribe
     Contributors: Eikonium, HerlySQR, Tasyen, Luashine, Forsakn
     Inspiration: Almia, ScorpioT1000, Troll-Brain
-    Hosted at: https://github.com/BribeFromTheHive/Lua/blob/main/TotalInitialization.lua
+    Hosted at: https://github.com/BribeFromTheHive/Lua/blob/master/TotalInitialization.lua
     Debug library hosted at: https://www.hiveworkshop.com/threads/debug-utils-ingame-console-etc.330758/
 ————————————————————————————————————————————————————————————]]
 
@@ -123,7 +123,7 @@ do
         else
             assert(type(libraryName)=="string")
             if debugLineNum and Debug then
-                Debug.beginFile(libraryName, incDebugLevel and 4 or 3)
+                Debug.beginFile(libraryName, incDebugLevel and 3 or 2)
                 Debug.data.sourceMap[#Debug.data.sourceMap].lastLine = debugLineNum
             end
             if library then

@@ -5,11 +5,11 @@ vJass = nil ---@type vJass
 
 ---@class thistype: Struct
 
-OnInit.main("vJass2Lua", function(uses) --https://github.com/BribeFromTheHive/Lua/blob/main/Total%20Initialization.lua
+OnInit.main("vJass2Lua", function(uses) --https://github.com/BribeFromTheHive/Lua/blob/master/Total%20Initialization.lua
 --vJass2Lua runtime plugin, version 2.4.0.0 by Bribe
 
     local hook  = uses.optionally "Hook"
-    local remap = uses.optionally "GlobalRemap" --https://github.com/BribeFromTheHive/Lua/blob/main/Global%20Variable%20Remapper.lua
+    local remap = uses.optionally "GlobalRemap" --https://github.com/BribeFromTheHive/Lua/blob/master/Global%20Variable%20Remapper.lua
 
     vJass = {}
 

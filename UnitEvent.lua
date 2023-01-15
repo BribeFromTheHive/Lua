@@ -1,14 +1,14 @@
 OnInit("UnitEvent", function()
 
-    Require "Timed"         --https://github.com/BribeFromTheHive/Lua/blob/main/Timed.lua
-    Require "AddHook"       --https://github.com/BribeFromTheHive/Lua/blob/main/Hook.lua
-    Require "GlobalRemap"   --https://github.com/BribeFromTheHive/Lua/blob/main/Global_Variable_Remapper.lua
-    Require "Event"         --https://github.com/BribeFromTheHive/Lua/blob/main/Event.lua
+    Require "Timed"         --https://github.com/BribeFromTheHive/Lua/blob/master/Timed.lua
+    Require "AddHook"       --https://github.com/BribeFromTheHive/Lua/blob/master/Hook.lua
+    Require "GlobalRemap"   --https://github.com/BribeFromTheHive/Lua/blob/master/Global_Variable_Remapper.lua
+    Require "Event"         --https://github.com/BribeFromTheHive/Lua/blob/master/Event.lua
     
-    local anyUnitEvent = Require "RegisterAnyPlayerUnitEvent"   --https://github.com/BribeFromTheHive/Lua/blob/main/Influa.lua
+    local anyUnitEvent = Require "RegisterAnyPlayerUnitEvent"   --https://github.com/BribeFromTheHive/Lua/blob/master/Influa.lua
     
     --needed for GUI coroutine support.
-    Require.optionally "PreciseWait"   --https://github.com/BribeFromTheHive/Lua/blob/main/PreciseWait.lua
+    Require.optionally "PreciseWait"   --https://github.com/BribeFromTheHive/Lua/blob/master/PreciseWait.lua
 --[[
 Lua Unit Event 1.4.0.0
 

@@ -8,17 +8,17 @@ if Debug then Debug.beginFile("Event") end
 ---@field sleep      async fun(duration?: number, callback?: function, data?: any)
 Event = nil
 
-OnInit("Event", function() --https://github.com/BribeFromTheHive/Lua/blob/main/Total_Initialization.lua
+OnInit("Event", function() --https://github.com/BribeFromTheHive/Lua/blob/master/Total_Initialization.lua
 --[[
     Event v2.2
 
     Event is built for GUI support, event linking via coroutines, simple events (e.g. Heal Event),
     binary events (like Unit Indexer) or complex event systems like Spell Event, Damage Engine and Unit Event.
 --]]
-    local hook        = Require.strict "Hook"            --https://github.com/BribeFromTheHive/Lua/blob/main/Hook.lua
-    local remap       = Require.lazily "GlobalRemap"     --https://github.com/BribeFromTheHive/Lua/blob/main/Global_Variable_Remapper.lua
-    local sleep       = Require.lazily "PreciseWait"     --https://github.com/BribeFromTheHive/Lua/blob/main/PreciseWait.lua
-    local wrapTrigger = Require.lazily "GUI.wrapTrigger" --https://github.com/BribeFromTheHive/Lua/blob/main/Influa.lua
+    local hook        = Require.strict "Hook"            --https://github.com/BribeFromTheHive/Lua/blob/master/Hook.lua
+    local remap       = Require.lazily "GlobalRemap"     --https://github.com/BribeFromTheHive/Lua/blob/master/Global_Variable_Remapper.lua
+    local sleep       = Require.lazily "PreciseWait"     --https://github.com/BribeFromTheHive/Lua/blob/master/PreciseWait.lua
+    local wrapTrigger = Require.lazily "GUI.wrapTrigger" --https://github.com/BribeFromTheHive/Lua/blob/master/Influa.lua
 --[[
     API:
 

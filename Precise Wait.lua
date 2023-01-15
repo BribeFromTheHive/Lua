@@ -1,9 +1,9 @@
-OnInit.global("PreciseWait", function(require) --https://github.com/BribeFromTheHive/Lua/blob/main/Total_Initialization.lua
+OnInit.global("PreciseWait", function(require) --https://github.com/BribeFromTheHive/Lua/blob/master/Total_Initialization.lua
 
-    local hook  = require.strict "Hook"        --https://github.com/BribeFromTheHive/Lua/blob/main/Hook.lua
-    local remap = require.lazily "GlobalRemap" --https://github.com/BribeFromTheHive/Lua/blob/main/Global_Variable_Remapper.lua
+    local hook  = require.strict "Hook"        --https://github.com/BribeFromTheHive/Lua/blob/master/Hook.lua
+    local remap = require.lazily "GlobalRemap" --https://github.com/BribeFromTheHive/Lua/blob/master/Global_Variable_Remapper.lua
     if remap then
-        require.recommends "GUI"               --https://github.com/BribeFromTheHive/Lua/blob/main/Influa.lua
+        require.recommends "GUI"               --https://github.com/BribeFromTheHive/Lua/blob/master/Influa.lua
     end
     
     --Precise Wait v1.5.3.0

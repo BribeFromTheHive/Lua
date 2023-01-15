@@ -2,7 +2,7 @@ OnInit(function(require)
     
     ---@diagnostic disable: cast-local-type, param-type-mismatch, assign-type-mismatch
 
-    local echo = require "Timed.echo" --https://github.com/BribeFromTheHive/Lua/blob/main/Timed.lua
+    local echo = require "Timed.echo" --https://github.com/BribeFromTheHive/Lua/blob/master/Timed.lua
 
     ----------------------------------------------------
     ---------------MOVESPEED SYSTEM CONFIG--------------
