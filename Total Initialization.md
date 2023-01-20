@@ -37,9 +37,10 @@ While Lua only has the *Lua root* for initialization, Lua can use *run-time hook
 
 
 **Why I made this:**
+
 First, let me show you the sequence of initialization that JassHelper used:
 
-[ATTACH type="full" alt="1666109255220.png"]411349[/ATTACH]
+![screenshot](https://www.hiveworkshop.com/attachments/1666109255220-png.411349/)
 
 There were two very key problems with JassHelper's initializer:
 
@@ -62,26 +63,26 @@ I therefore wanted to re-design the sequence to allow GUI and Lua to not suffer 
 
 ```lua
 OnInit.root(function()
-        print "This is called immediately"
-    end)
-    OnInit.config(function()
-        print "This is called during the map config process (in game lobby)"
-    end)
-    OnInit.main(function()
-        print "This is called during the loading screen"
-    end)
-    OnInit(function()
-        print "All udg_ variables have been initialized"
-    end)
-    OnInit.trig(function()
-        print "All InitTrig_ functions have been called"
-    end)
-    OnInit.map(function()
-        print "All Map Initialization events have run"
-    end)
-    OnInit.final(function()
-        print "The game has now started"
-    end)
+    print "This is called immediately"
+end)
+OnInit.config(function()
+    print "This is called during the map config process (in game lobby)"
+end)
+OnInit.main(function()
+    print "This is called during the loading screen"
+end)
+OnInit(function()
+    print "All udg_ variables have been initialized"
+end)
+OnInit.trig(function()
+    print "All InitTrig_ functions have been called"
+end)
+OnInit.map(function()
+    print "All Map Initialization events have run"
+end)
+OnInit.final(function()
+    print "The game has now started"
+end)
 ```
 
 Note: You can optionally include a string as an argument to give your initializer a name. This is useful in two scenarios:
