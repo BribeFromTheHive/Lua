@@ -1,94 +1,106 @@
-if Debug then Debug.beginFile "Remap" end
-
-GlobalRemap      = nil ---@type fun(var: string, getFunc?: (fun():any),      setFunc?: fun(value))
-GlobalRemapArray = nil ---@type fun(var: string, getFunc?: (fun(index):any), setFunc?: fun(index, value))
-
-OnInit(function()
-
-Require.strict "Hook" --https://github.com/BribeFromTheHive/Lua/blob/master/Hook.lua
+if Debug then Debug.beginFile 'GlobalRemap' end
 --[[
---------------------------------------------------------------------------------------
-Global Variable Remapper v1.3.2 by Bribe
+Global Variable Remapper v1.4 by Bribe
 
-- Turns normal GUI variable references into function calls that integrate seamlessly
-  with a Lua framework.
+Turns normal GUI variables into function calls that integrate seamlessly with Lua.
+--]]
+local oldInit = InitGlobals
+function InitGlobals()
+    oldInit()
 
-API:
-    GlobalRemap(variableStr[, getterFunc, setterFunc])
-    @variableStr is a string such as "udg_MyVariable"
-    @getterFunc is a function that takes nothing but returns the expected value when
-        "udg_MyVariable" is referenced.
-    @setterFunc is a function that takes a single argument (the value that is being
-        assigned) and allows you to do what you want when someone uses "Set MyVariable = SomeValue".
-        The function doesn't need to do anything nor return anything. Enables read-only
-        GUI variables for the first time in WarCraft 3 history.
-    
-    GlobalRemapArray(variableStr[, getterFunc, setterFunc])
-    @variableStr is a string such as "udg_MyVariableArray"
-    @getterFunc is a function that takes the index of the array and returns the
-        expected value when "MyVariableArray" is referenced.
-    @setterFunc is a function that takes two arguments: the index of the array and the
-        value the user is trying to assign. The function doesn't return anything.
-----------------------------------------------------------------------------------------]]
-local getters = {}
-Hook.add("__index", function(h, g, key)
-    if getters[key]~=nil then
-        return getters[key]()
+    local printError = Debug and Debug.throwError or print
+
+    ---@param name string
+    ---@param error string
+    local function softErrorHandler(name, error)
+        printError('!!!GlobalRemap Error!!! "' .. name .. '" ' .. error)
     end
-    return h.next(g, key)
-end, 0, _G, rawget)
 
-local setters = {}
-Hook.add("__newindex", function(h, g, key, val)
-    if setters[key]~=nil then
-        setters[key](val)
-    else
-        h.next(g, key, val)
+    if not Hook then --https://github.com/BribeFromTheHive/Lua/blob/master/Hook.lua
+        softErrorHandler('Hook', 'is required but not found.')
+        return
     end
-end, 0, _G, rawset)
 
-local default = DoNothing
+    local default = DoNothing
+    local getters = {}
+    local setters = {}
 
----Remap a non-array global variable to call getFunc when referenced or setFunc when assigned:
----
----`GlobalRemap(varName: string [, getFunc: (function -> any), setFunc: (function(value))])`
----@class GlobalRemap
----@overload fun(var: string, getFunc?: (fun():any),      setFunc?: fun(value))
-function GlobalRemap(var, getFunc, setFunc)
-    if not getters[var] then
-        _G[var] = nil --Delete the variable from the global table.
-        getters[var] = getFunc or default --Assign a function that returns what should be returned when this variable is referenced.
-        setters[var] = setFunc or default --Assign a function that captures the value the variable is attempting to be set to.
-    else
-        if getFunc then
-            Hook(var, getFunc, 0, getters)
+    ---@param hook Hook.property
+    ---@param _G table
+    ---@param key string
+    ---@return unknown
+    local function __index(hook, _G, key)
+        if getters[key]~=nil then
+            return getters[key]()
         end
-        if setFunc then
-            Hook(var, setFunc, 0, setters)
+        return hook.next(_G, key)
+    end
+
+    ---@param hook Hook.property
+    ---@param _G table
+    ---@param key string
+    ---@param val unknown
+    local function __newindex(hook, _G, key, val)
+        if setters[key]~=nil then
+            setters[key](val)
+        else
+            hook.next(_G, key, val)
         end
     end
-    if getters[var] then
-        if getFunc then
-            Hook(var, getFunc, 0, getters)
+
+    Hook.add('__index',    __index,    0, _G, rawget)
+    Hook.add('__newindex', __newindex, 0, _G, rawset)
+
+    ---Remap a global variable (non-array) to call getFunc when referenced or setFunc when assigned.
+    ---This serves as a permanent hook and cannot be removed.
+    --
+    ---@param variableStr string            # a string such as "udg_MyVariable"
+    ---@param getFunc? fun(): unknown        # a function that takes nothing but returns the expected value when `udg_MyVariable` is referenced.
+    ---@param setFunc? fun(value: unknown)   # a function that takes a single argument (the value that is being assigned) and allows you to do what you want when someone uses `Set MyVariable = SomeValue`. The function doesn't need to do anything nor return anything, so it even allows read-only GUI variables.
+    function GlobalRemap(variableStr, getFunc, setFunc)
+        if getters[variableStr] then
+            softErrorHandler(variableStr, 'has been remapped twice. There can only be one remap per variable.')
+            return
         end
-    else
-        getters[var] = getFunc or default   --Assign a function that returns what should be returned when this variable is referenced.
+        _G[variableStr] = nil                     --Delete the variable from the global table.
+        getters[variableStr] = getFunc or default --Assign a function that returns what should be returned when this variable is referenced.
+        setters[variableStr] = setFunc or default --Assign a function that captures the value the variable is attempting to be set to.
     end
-    setters[var] = setFunc or default   --Assign a function that captures the value the variable is attempting to be set to.
+
+    ---This function allows you to override the behavior of a global array variable.
+    ---
+    ---You can provide custom getter and setter functions that will be called whenever the variable is accessed or modified.
+    ---
+    ---If 'preserveState' is 'true', the original array is preserved and passed to the getter and setter functions as an extra parameter.
+    ---This is particularly useful when multiple resources want to remap the same array. As long as the resource that called it
+    ---most recently handles the previous state correctly, multiple remappings can coexist without conflict.
+    ---
+    ---Like GlobalRemap, this hook cannot be reversed.
+    ---
+    ---@param variableStr string                                         # The name of the global array variable you want to remap, such as "udg_MyVariableArray".
+    ---@param getFunc fun(index: unknown, state?: table): unknown        # A function that takes the index of the array and a table representing the current state of the variable.
+    ---@param setFunc? fun(index: unknown, value: unknown, state?: table) # A function that takes the index of the array, the value that is being assigned to the variable, and a table representing the current state of the variable.
+    ---@param preserveState? true                                        # If not provided, the state passed to the callback functions will simply be 'nil'
+    function GlobalRemapArray(variableStr, getFunc, setFunc, preserveState)
+        getFunc = getFunc or default
+        setFunc = setFunc or default
+
+        local state = _G[variableStr]
+        if type(state) ~= 'table' then
+            softErrorHandler(variableStr, 'is an invalid array to remap. Its type must be "table" but is instead "' .. type(state) .. '".')
+            return
+        end
+        state = preserveState and state
+
+        _G[variableStr] = setmetatable({}, {
+            __index = function(_, index)
+                return getFunc(index, state)
+            end,
+            __newindex = function(_, index, val)
+                setFunc(index, val, state)
+            end
+        })
+    end
 end
 
----Remap a global variable array to call getFunc when referenced or setFunc when assigned:
----
----`GlobalRemapArray(arrayName: string [, getFunc: (function(index) -> any), setFunc: (function(index, value))])`
----@class GlobalRemapArray
----@overload fun(var: string, getFunc?: (fun(index):any), setFunc?: fun(index, value))
-function GlobalRemapArray(var, getFunc, setFunc)
-    getFunc = getFunc or default
-    setFunc = setFunc or default
-    _G[var] = setmetatable({}, {
-        __index = function(_, index) return getFunc(index) end,
-        __newindex = function(_, index, val) setFunc(index, val) end,
-    })
-end
-end)
 if Debug then Debug.endFile() end
