@@ -1,6 +1,6 @@
 if Debug then Debug.beginFile "Hook" end
 --——————————————————————————————————————
--- Hook version 7.1
+-- Hook version 7.1.0.1
 -- Created by: Bribe
 -- Contributors: Eikonium, Jampion, MyPad, Wrda
 --—————————————————————————————————————————————
@@ -11,8 +11,8 @@ if Debug then Debug.beginFile "Hook" end
 ---@field package priority number
 ---@field package index integer
 ---@field package hookAsBasicFn? function
----@field package debugId? string
----@field package debugNext? string
+----@field package debugId? string
+----@field package debugNext? string
 
 ---@class Hook: {[integer]: Hook.property, [string]: function}
 Hook = {}
@@ -52,7 +52,7 @@ do
             currentHook.next = (i > 1) and
                 rawget(prevHook, 'hookAsBasicFn') or
                 prevHook
-            currentHook.debugNext = tostring(currentHook.next)
+            --currentHook.debugNext = tostring(currentHook.next)
             prevHook = currentHook
         end
         local topHookBasicFn = rawget(tree[top], 'hookAsBasicFn')
@@ -84,8 +84,6 @@ do
         hookProperty.tree = nil
         if deleteAllHooks or #tree == 1 then
             --Reset the host table's native behavior for the hooked key.
-
-
             tree.host[tree.key] =
                 (tree[0] ~= DoNothing) and
                     tree[0] or
@@ -95,12 +93,6 @@ do
         else
             reindexTree(tree, hookProperty.index)
         end
-    end
-
-    ---@param self Hook.property
-    ---@param key unknown
-    local function getIndex(self, key)
-        return self.next
     end
 
     ---@param hostTableToHook? table
@@ -145,7 +137,6 @@ do
             --Logging is used here instead of directly throwing an error, because
             --no one can be sure that we're running within a debug-friendly thread.
             (Debug and Debug.throwError or print)("Hook Error: No value found for key: " .. tostring(key))
-
             return
         end
 
@@ -157,8 +148,12 @@ do
             --debugNativeId = tostring(nativeFn)
         }
         hostKeyTreeMatrix[hostTableToHook][key] = tree
-
         return tree
+    end
+
+    ---@param self Hook.property
+    local function __index(self)
+        return self.next
     end
 
     ---@param key        unknown                Usually `string` (the name of the native you wish to hook)
@@ -210,7 +205,7 @@ do
         else
             setmetatable(new, {
                 __call = callbackFn,
-                __index = getIndex
+                __index = __index
             })
         end
         reindexTree(tree, index, new)
@@ -220,7 +215,8 @@ end
 
 ---Hook.basic avoids creating a metatable for the hook.
 ---This is necessary for adding hooks to metatable methods such as __index.
----It is also useful if the user only needs a simple hook.
+---The main difference versus Hook.add is in the parameters passed to callbackFn;
+---Hook.add has a 'self' argument which points to the hook, whereas Hook.basic does not.
 ---@param key        unknown
 ---@param callbackFn fun(Hook, ...):any
 ---@param priority?  number
